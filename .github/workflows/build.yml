@@ -47,6 +47,9 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-root
 
+      - name: Create kubeconfig
+        run: aws eks update-kubeconfig --name eks-demo-k-eks-cluster
+
       - name: Set image tag in Pulumi config
         run: |
           pulumi stack select app-demo
