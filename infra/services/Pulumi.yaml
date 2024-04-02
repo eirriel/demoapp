@@ -1,0 +1,14 @@
+name: svcs
+runtime:
+  name: python
+  options:
+    virtualenv: ../../.venv
+description: Main Services
+backend:
+  url: s3://ariel-pulumi-state
+template:
+  config:
+    aws:profile:
+      default: ariel
+    aws:region:
+      default: us-east-1

@@ -1,0 +1,8 @@
+secretsprovider: awskms://alias/pulumi?region=us-east-1
+encryptedkey: AQICAHgTIyLDynOsq4ZQMVTz642Lf401aQZEjmviWSTnQ1Ad2QFUQloTqRHfXeINzELAqL9gAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMTIsst+gAMb/SAMijAgEQgDsGjNHsciSgd3/eje6DRm0N8Ek4M0AoMjNqBVl9E9JqIiNivrGKE38ChyhHWOe4rBEmua4ZvQF7L3Se1Q==
+config:
+  aws:region: us-east-1
+  db:cidr_blocks:
+    - 10.29.0.0/16
+  db:db_major_version: "8.0"
+  db:db_storage_size: "5"

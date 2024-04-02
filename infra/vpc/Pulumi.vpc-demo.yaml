@@ -1,0 +1,5 @@
+secretsprovider: awskms://alias/pulumi?region=us-east-1
+encryptedkey: AQICAHgTIyLDynOsq4ZQMVTz642Lf401aQZEjmviWSTnQ1Ad2QG9gMpaXJf+jTM/b64ke1DzAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMUpIee/6fq6hTmeD5AgEQgDs/GoNkW1DoNNcS03+uxhYl6B+hqWl+miMHE+DMQhPiqJr7jWv82b6UaUSvsMzClam/5G0cgqk1oBue/A==
+config:
+  aws:region: us-east-1
+  vpc:vpc_cidr: 10.29.0.0/16

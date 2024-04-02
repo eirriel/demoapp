@@ -1,0 +1,17 @@
+secretsprovider: awskms://alias/pulumi?region=us-east-1
+encryptedkey: AQICAHgTIyLDynOsq4ZQMVTz642Lf401aQZEjmviWSTnQ1Ad2QEOXuN/heG1QLqFfyVAhSl7AAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMNqUMWlscTZ3udKKxAgEQgDtz0ZrKQfBOO3ejIfvUHFt3AUpWg48INmeyoc86aoY5nYVNpxl01iiIQWTeqOYd/8E+SZM6d+WycB6UKw==
+config:
+  app:app_environment_variables:
+    DB_DATABASE: demoapp
+    DB_HOST: db-proxy.cloudlan.net
+    DB_PORT: "3306"
+    PORT: "3000"
+  app:app_hostnames:
+    - name: demo.cloudlan.net
+  app:app_image: 489755534010.dkr.ecr.us-east-1.amazonaws.com/demoapp:initial
+  app:app_replicas: "1"
+  app:app_secrets:
+    SESSION_SECRET:
+      secure: v1:SFL9fHb+Js7AcBeJ:2hF/hJm52JTEH2IgzuPe+p+b4pgz8Jp/z5NB4w==
+  aws:region: us-east-1
+  kubernetes:context: arn:aws:eks:us-east-1:489755534010:cluster/eks-demo-k-eks-cluster

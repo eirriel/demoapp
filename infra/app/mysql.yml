@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: app-demo-app
+  name: pg
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: app-demo-app
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: app-demo-app
+    spec:
+      containers:
+      - env:
+        - name: DB_DATABASE
+          value: demoapp
+        - name: DB_HOST_PROXY
+          value: db-proxy.cloudlan.net
+        - name: DB_HOST_DB
+          value: db.cloudlan.net
+        - name: DB_PORT
+          value: "3306"
+        - name: PORT
+          value: "3000"
+        image: mysql:8
+        command:
+          - sleep
+          - 999d
+        imagePullPolicy: Always
+        name: mysql
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

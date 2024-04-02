@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "apptest"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pulumi = "^3.111.1"
+pulumi-aws = "^6.27.0"
+pulumi-kubernetes = "^4.9.1"
+pulumi-random = "^4.16.0"
+pulumi-tls = "^5.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
