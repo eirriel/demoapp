@@ -41,18 +41,18 @@ jobs:
           pulumi stack select app-demo
           pulumi config set app_image ${{ steps.login-ecr.outputs.registry }}/demoapp:${{ steps.commit_hash.outputs.short_commit_hash }}
         working-directory: ./infra/app/
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Pulumi up
         run: |
           pulumi stack select app-demo
           pulumi up -y
         working-directory: ./infra/app/
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Save pulumi config changes
         run: |
