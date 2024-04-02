@@ -16,8 +16,9 @@ class KubernetesServiceArgs:
                  public_load_balancer: pulumi.Input[str],
                  secrets_data: Mapping[Any, Any],
                  service_permissions: Sequence[aws.iam.GetPolicyDocumentStatementArgs],
-                 replicas: pulumi.Input[int],
                  hostname_list: Sequence[Any],
+                 min_replicas: pulumi.Input[int] = 1,
+                 max_replicas: pulumi.Input[int] = 6,
                  ingress_port: int = 80) -> None:
 
         self.base_tags = base_tags
@@ -26,6 +27,8 @@ class KubernetesServiceArgs:
         self.environment_variables = environment_variables
         self.image = image
         self.kube_issuer = kube_issuer
+        self.max_replicas = max_replicas
+        self.min_replicas = min_replicas
         self.namespace = namespace
         self.openid_connector = openid_connector
         self.public_load_balancer = public_load_balancer
@@ -33,7 +36,6 @@ class KubernetesServiceArgs:
         self.service_permissions = service_permissions
         self.hostname_list = hostname_list
         self.ingress_port = ingress_port
-        self.replicas = replicas
 
 
 class KubernetesService(pulumi.ComponentResource):
@@ -50,6 +52,8 @@ class KubernetesService(pulumi.ComponentResource):
         self.environment_variables = args.environment_variables
         self.image = args.image
         self.kube_issuer = args.kube_issuer
+        self.max_replicas = args.max_replicas
+        self.min_replicas = args.min_replicas
         self.namespace = args.namespace
         self.openid_connector = args.openid_connector
         self.public_load_balancer = args.public_load_balancer
@@ -57,7 +61,6 @@ class KubernetesService(pulumi.ComponentResource):
         self.service_permissions = args.service_permissions
         self.hostname_list = args.hostname_list
         self.ingress_port = args.ingress_port
-        self.replicas = args.replicas
 
 
         if len(self.service_permissions) > 0:
@@ -161,7 +164,6 @@ class KubernetesService(pulumi.ComponentResource):
                 namespace=self.namespace
             ),
             spec=k8s.apps.v1.DeploymentSpecArgs(
-                replicas=self.replicas,
                 selector=k8s.meta.v1.LabelSelectorArgs(
                     match_labels={
                         "app.kubernetes.io/name": self.name
@@ -225,8 +227,8 @@ class KubernetesService(pulumi.ComponentResource):
                     kind="Deployment",
                     name=self.name
                 ),
-                min_replicas=1,
-                max_replicas=6,
+                min_replicas=self.min_replicas,
+                max_replicas=self.max_replicas,
                 metrics=[
                     k8s.autoscaling.v2.MetricSpecArgs(
                         type="Resource",

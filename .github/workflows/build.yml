@@ -2,8 +2,11 @@ name: Build docker image
 
 on:
   push:
-    branches:
-      - main
+    #branches:
+    #  - main
+    paths-ignore:
+      - 'README.md'
+      - 'infra/app/**'
 
 jobs:
   build:
@@ -17,13 +20,18 @@ jobs:
         id: commit_hash
         run: echo "::set-output name=short_commit_hash::$(git rev-parse --short HEAD)"
       
-      - name: Login to AWS ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+      - name: Setup credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          registry: ${{ secrets.AWS_REGISTRY_URL }}
+          aws-region: us-east-1
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry: ${{ secrets.AWS_REGISTRY_URL }}
       
       - name: Build Docker image
         run: |
@@ -35,6 +43,15 @@ jobs:
 
       - name: Install Pulumi CLI
         run: curl -fsSL https://get.pulumi.com | sh
+
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Install dependencies
+        run: poetry install --no-root
+
+      - name: Create kubeconfig
+        run: aws eks update-kubeconfig --name eks-demo-k-eks-cluster
 
       - name: Set image tag in Pulumi config
         run: |
@@ -54,10 +71,15 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Save pulumi config changes
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git add ./infra/app
-          git commit -m "Set image tag in Pulumi config"
-          git push origin main
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          branch: ${{ github.ref_name }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+            #- name: Save pulumi config changes
+            #  run: |
+            #    git config --global user.email "actions@github.com"
+            #    git config --global user.name "GitHub Actions"
+            #    git add ./infra/app
+            #    git commit -m "Set image tag in Pulumi config"
+            #    git push

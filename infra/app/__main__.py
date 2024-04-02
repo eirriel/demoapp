@@ -36,6 +36,8 @@ app = KubernetesService(
         image=config.require('app_image'),
         ingress_port=3000,
         kube_issuer=k8s_stack.require_output('cluster_issuer'),
+        max_replicas=config.get_int('app_max_replicas'),
+        min_replicas=config.get_int('app_min_replicas'),
         namespace=ns.metadata.name,
         openid_connector=k8s_stack.require_output('cluster_openid_connector'),
         public_load_balancer=k8s_stack.require_output('cluster_public_load_balancer'),
@@ -43,8 +45,7 @@ app = KubernetesService(
             **default_secrets,
             **config.get_object('app_secrets')
         },
-        service_permissions=[],
-        replicas=config.get_int('app_replicas')
+        service_permissions=[]
     )
 )
 

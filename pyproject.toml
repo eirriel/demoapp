@@ -6,7 +6,7 @@ authors = ["Your Name <you@example.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.9"
 pulumi = "^3.111.1"
 pulumi-aws = "^6.27.0"
 pulumi-kubernetes = "^4.9.1"

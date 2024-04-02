@@ -238,13 +238,6 @@ class ServicesResources(pulumi.ComponentResource):
                     'system:nodes'
                 ]
             },
-            {
-                'rolearn': 'arn:aws:iam::389169665533:role/ci-role',
-                'username': 'ci-user',
-                'groups': [
-                    'system:masters'
-                ]
-            }
         ]
         return yaml.dump(node_cluster_map_roles)
 
