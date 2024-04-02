@@ -5,4 +5,6 @@ config:
   kubernetes:context: arn:aws:eks:us-east-1:489755534010:cluster/eks-demo-k-eks-cluster
   svcs:ebs_csi_chart_version: 2.27.0
   svcs:eks_ebs_csi_chart_version: 2.27.0
-  svcs:kube_users: '[]'
+  svcs:kube_users:
+    - arn:aws:iam::489755534010:user/ariel
+    - arn:aws:iam::489755534010:user/github
