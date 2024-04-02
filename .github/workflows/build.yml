@@ -4,6 +4,9 @@ on:
   push:
     #branches:
     #  - main
+    paths-ignore:
+      - 'README.md'
+      - 'infra/app/**'
 
 jobs:
   build:
@@ -68,10 +71,14 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Save pulumi config changes
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git add ./infra/app
-          git commit -m "Set image tag in Pulumi config"
-          git push
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+            #- name: Save pulumi config changes
+            #  run: |
+            #    git config --global user.email "actions@github.com"
+            #    git config --global user.name "GitHub Actions"
+            #    git add ./infra/app
+            #    git commit -m "Set image tag in Pulumi config"
+            #    git push
