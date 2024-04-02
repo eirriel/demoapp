@@ -74,4 +74,4 @@ jobs:
           git config --global user.name "GitHub Actions"
           git add ./infra/app
           git commit -m "Set image tag in Pulumi config"
-          git push origin main
+          git push
