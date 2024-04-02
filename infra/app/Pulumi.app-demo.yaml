@@ -8,7 +8,7 @@ config:
     PORT: "3000"
   app:app_hostnames:
     - name: demo.cloudlan.net
-  app:app_image: 489755534010.dkr.ecr.us-east-1.amazonaws.com/demoapp:93e6886
+  app:app_image: 489755534010.dkr.ecr.us-east-1.amazonaws.com/demoapp:ce4d3d2
   app:app_max_replicas: "6"
   app:app_min_replicas: "1"
   app:app_replicas: "1"
